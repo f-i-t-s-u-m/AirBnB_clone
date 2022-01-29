@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" base model file """
+""" base model file 
+have BaseModel Class
+"""
 
 
 import uuid
@@ -10,7 +12,12 @@ class BaseModel():
     """ class of base model"""
    
     def __init__(self, *args, **kwargs):
-        """ init the class"""
+         """Initialization of a Base instance.
+        Args:
+            - *args: list of arguments
+            - **kwargs: dict of key-values arguments
+        """
+
         if kwargs is not None and  kwargs != {}:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
@@ -25,17 +32,22 @@ class BaseModel():
             storage.new(self)
 
     def __str__(self):
-        """ return str version """
+        """Returns a human-readable string representation
+        of an instance."""
+
         return str("[{}] ({}) {}".format(BaseModel.__name__, 
             self.id, self.__dict__));
 
     def save(self):
-        """ save data"""
+         """Updates the updated_at attribute
+        with the current datetime."""
+
         self.updated_at = datetime.now()
         storage.save()
     
     def to_dict(self):
-        """ return the dict version of the app"""
+         """Returns a dictionary representation of an instance."""
+
         dictm = self.__dict__.copy()
         dictm['__class__'] = type(self).__name__
         dictm['created_at'] = dictm['created_at'].isoformat()
