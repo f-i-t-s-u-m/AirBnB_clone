@@ -17,7 +17,7 @@ class BaseModel():
                     self.__dict__[k] = datetime.strptime(str(v), 
                             '%Y-%m-%dT%H:%M:%S.%f')
                 elif k != '__class__':
-                    self.__dict__[k] = v
+                    setattr(self, k, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
