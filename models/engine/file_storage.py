@@ -36,7 +36,10 @@ class FileStorage:
         """ load or deserilizes json file to _objs"""
         try:
             with open(self.__file_path) as jsonfile:
-               self.__objects = json.load(jsonfile)
+                obj = json.load(jsonfile)
+                obj = {k: v for k, v in obj.items()}
+                self.__objects = obj
+
         except FileNotFoundError:
             pass
 
