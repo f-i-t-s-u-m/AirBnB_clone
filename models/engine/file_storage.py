@@ -3,42 +3,40 @@
 
 import json
 
-class FileStorage():
+class FileStorage:
     """ python class"""
     __file_path = 'data.json'
     __objects = {}
 
+    def __init__(self):
+        """ class init """
+        pass
 
     def all(self):
         """ return objects"""
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """ sets to __objs"""
-       # FileStorage.__objects = {type(obj).__name__+"."+ obj.id : obj}
-        #key = "{}.{}".format(type(obj).__name__, obj.id)
-        #FileStorage.__objects[key] = obj
-        obj_key = type(obj).__name__ + '.' + obj.id
-        FileStorage.__objects[obj_key] = obj 
+        self.__objects = {type(obj).__name__+"."+ obj.to_dict()['id'] : obj.to_dict()}
 
     def save(self):
         """ serialize _object to json"""
-        """  try:
-            with open(FileStorage.__file_path) as readData:
+        try:
+            with open(self.__file_path) as readData:
                 loadedJson = readData.read()
                 if loadedJson:
-                    FileStorage.__objects.update(json.loads(loadedJson))
+                    self.__objects.update(json.loads(loadedJson))
         except FileNotFoundError:
             pass
-        with open(FileStorage.__file_path, "w") as data:
-                json.dump(json.loads(json.dumps(FileStorage.__objects)), data)"""
+        with open(self.__file_path, "w") as data:
+                json.dump(json.loads(json.dumps(self.__objects)), data)
 
     def reload(self):
         """ load or deserilizes json file to _objs"""
         try:
-            with open(FileStorage.__file_path) as jsonfile:
-               #self.__objects = json.loads(jsonfile.read())
-               pass
+            with open(self.__file_path) as jsonfile:
+               self.__objects = json.load(jsonfile)
         except FileNotFoundError:
             pass
 
