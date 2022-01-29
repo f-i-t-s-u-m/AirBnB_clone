@@ -12,7 +12,7 @@ class BaseModel():
     """ class of base model"""
    
     def __init__(self, *args, **kwargs):
-         """Initialization of a Base instance.
+        """Initialization of a Base instance.
         Args:
             - *args: list of arguments
             - **kwargs: dict of key-values arguments
@@ -39,14 +39,14 @@ class BaseModel():
             self.id, self.__dict__));
 
     def save(self):
-         """Updates the updated_at attribute
+        """Updates the updated_at attribute
         with the current datetime."""
 
         self.updated_at = datetime.now()
         storage.save()
     
     def to_dict(self):
-         """Returns a dictionary representation of an instance."""
+        """Returns a dictionary representation of an instance."""
 
         dictm = self.__dict__.copy()
         dictm['__class__'] = type(self).__name__
