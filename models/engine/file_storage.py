@@ -20,7 +20,6 @@ class FileStorage():
         #FileStorage.__objects[key] = obj
         obj_key = type(obj).__name__ + '.' + obj.id
         FileStorage.__objects[obj_key] = obj 
-        print(obj.__dict__)
 
     def save(self):
         """ serialize _object to json"""
@@ -33,7 +32,6 @@ class FileStorage():
             pass
         with open(FileStorage.__file_path, "w") as data:
                 json.dump(json.loads(json.dumps(FileStorage.__objects)), data)"""
-        print(FileStorage.__objects)
 
     def reload(self):
         """ load or deserilizes json file to _objs"""
