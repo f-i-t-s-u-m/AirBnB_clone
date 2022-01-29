@@ -35,7 +35,7 @@ class BaseModel():
         """Returns a human-readable string representation
         of an instance."""
 
-        return str("[{}] ({}) {}".format(BaseModel.__name__, 
+        return str("[{}] ({}) {}".format(type(self).__name__, 
             self.id, self.__dict__));
 
     def save(self):
