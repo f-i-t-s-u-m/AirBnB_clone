@@ -2,28 +2,42 @@
 """ base model file """
 
 
-import json, uuid, datetime
+import json, uuid
+from datetime import datetime
+from models import storage
 
 class BaseModel():
     """ class of base model"""
-    name = ""
-    id = str(uuid.uuid4())
-    created_at = datetime.datetime.now()
-    updated_at = datetime.datetime.now()
-    
+   
+    def __init__(self, *args, **kwargs):
+        """ init the class"""
+        if kwargs is not None and  kwargs != {}:
+            for k, v in kwargs.items():
+                if k in ['created_at', 'updated_at']:
+                    self.__dict__[k] = datetime.strptime(str(v), 
+                            '%Y-%m-%dT%H:%M:%S.%f')
+                elif k != '__class__':
+                    self.__dict__[k] = v
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)
+
     def __str__(self):
+        """ return str version """
         return str("[{}] ({}) {}".format(BaseModel.__name__, 
             self.id, self.__dict__));
 
     def save(self):
-        self.updated_at = datetime.datetime.now()
+        """ save data"""
+        self.updated_at = datetime.now()
+        storage.save()
     
     def to_dict(self):
-        dictm = {}
-        dictm['my_number'] = self.my_number
-        dictm['name'] = self.name
-        dictm['updated_at'] = self.updated_at
-        dictm['id'] = self.id
-        dictm['created_at'] = self.created_at
-        dictm['__class__'] = BaseModel.__name__
+        """ return the dict version of the app"""
+        dictm = self.__dict__.copy()
+        dictm['__class__'] = type(self).__name__
+        dictm['created_at'] = dictm['created_at'].isoformat()
+        dictm['updated_at'] = dictm['updated_at'].isoformat()
         return dictm
