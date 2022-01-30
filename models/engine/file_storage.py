@@ -33,8 +33,10 @@ class FileStorage:
         load classes from
         """
         from models.base_model import BaseModel
+        from models.user import User
         classData = {
-                "BaseModel": BaseModel
+                "BaseModel": BaseModel,
+                "User":User
                 }
         return classData
 
