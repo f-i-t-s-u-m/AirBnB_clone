@@ -21,10 +21,10 @@ class BaseModel():
         if kwargs is not None and  kwargs != {}:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
-                    self.__dict__[k] = datetime.strptime(str(v), 
-                            '%Y-%m-%dT%H:%M:%S.%f')
+                    setattr(self, k,  datetime.strptime(str(v), 
+                            '%Y-%m-%dT%H:%M:%S.%f'))
                 elif k != '__class__':
-                    self.__dict__[k] = v
+                    setattr(self, k, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
