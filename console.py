@@ -15,11 +15,11 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_EOF(self, argfs):
-        """ end of file"""
+        """Quit command to exit the program \n"""
         return True
 
     def emptyline(self):
-        """ show nothing"""
+        """ show nothing \n"""
         pass
 
 
