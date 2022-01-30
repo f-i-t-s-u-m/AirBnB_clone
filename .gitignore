@@ -2,4 +2,3 @@ __pycache__
 /models/__pycache__
 /models/*.sw*
 *.sw*
-test*.py
