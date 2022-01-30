@@ -4,12 +4,12 @@ Python console file
 """
 import cmd
 import sys
-from models.engine.file_storage import FileStorage
+import re
+from models import storage 
 
 class HBNBCommand(cmd.Cmd):
     """ class if HBHB command """
     prompt = '(hbtn) '
-
     def do_quite(self, arg):
         """Quit command to exit the program \n"""
         return True
@@ -25,49 +25,51 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Creates a new instance \n"""
         if args == "":
-            print("*** name require")
+            print("** class name missing **")
             return
-        elif args not in FileStorage.classes():
-            print("no class")
+        elif args not in storage.classes():
+            print("** class doesn't exist **")
             return
-        base = FileStorage.classes()[args]()
+        base = storage.classes()[args]()
         base.name = args
         base.save()
         return
     
     def do_all(self, args):
         """access BaseModel \n"""
-        data = FileStorage()
         if args:
-            if args not in FileStorage.classes():
+            if args not in storage.classes():
                 print("** class doesn't exist **")
                 return
-            for k, v in data.all().items():
+            for k, v in storage.all().items():
                 if (type(v).__name__) == args:
                     data = {k: v.to_dict()}
             print (data)
             return
-        for k, v in data.all().items():
+        for k, v in storage.all().items():
             data = v
             print(data)
         return
 
     def findModel(fun):
-        """ remove item from json file"""
+        """ method to act as decorator 
+            for show and destory
+        """
         def wrapper(self, args):
-            data = FileStorage().all()
+            """ inner function to do validation"""
+            data = storage.all()
             args = args.split()
             if len(args) == 0:
                 print("** class name missing **")
                 return
-            elif args[0] not in FileStorage.classes():
+            elif args[0] not in storage.classes():
                 print("** class doesn't exist **")
                 return
             elif len(args) == 1:
                 print("** instance id missing **")
                 return
             try:
-                fun(self, data[str(".".join(args))])
+                fun(self, args)
             except KeyError:
                 print("** no instance found **")
                 return
@@ -77,9 +79,33 @@ class HBNBCommand(cmd.Cmd):
     @findModel
     def do_show(self, args):
         """ print class instance """
-        print(args)
+        print(storage.all()[".".join(args[:2])])
+        return
+
+    @findModel
+    def do_destory(self, args):
+        """ Deletes an instance based on the class name and id """
+        del storage.all()[".".join(args[:2])]
         return
     
+    @findModel
+    def do_update(self, args):
+        """ update an instance"""
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return
+        elif len(args) == 3:
+            print("** value missing **")
+            return
+        val = args[3].replace('"', '')
+        if(val.isdigit()):
+            val = int(val)
+        elif(re.search('^[+-]?[0-9]+\.[0-9]+$', val)):
+            val = float(val)
+        data = storage.all()[".".join(args[:2])].__dict__
+        data[args[2]] = val
+        storage.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
