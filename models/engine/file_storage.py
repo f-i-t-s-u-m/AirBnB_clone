@@ -19,22 +19,16 @@ class FileStorage:
 
     def new(self, obj):
         """ sets to __objs"""
-        FileStorage.__objects = {type(obj).__name__ + "." + obj.id: obj}
+        FileStorage.__objects.update({str(type(obj).__name__ + "." + obj.id): obj})
 
-    def save(FileStorage):
+    def save(self):
         """ serialize _object to json"""
-        objFile = {}
-        try:
-            with open(FileStorage.__file_path) as readData:
-                objFile = json.load(readData)
-        except FileNotFoundError:
-            pass
         with open(FileStorage.__file_path, "w") as data:
             obj = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
-            obj.update(objFile)
             json.dump(obj, data)
 
-    def classes(self):
+    @staticmethod
+    def classes():
         """
         load classes from
         """
@@ -46,7 +40,6 @@ class FileStorage:
 
     def reload(self):
         """ load or deserilizes json file to _objs"""
-        from models.base_model import BaseModel
         try:
             with open(FileStorage.__file_path) as jsonfile:
                 obj = json.load(jsonfile)
