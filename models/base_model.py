@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" base model file 
+""" base model file
 have BaseModel Class
 """
 
@@ -8,9 +8,10 @@ import uuid
 from datetime import datetime
 from models import storage
 
+
 class BaseModel():
     """ class of base model"""
-   
+
     def __init__(self, *args, **kwargs):
         """Initialization of a Base instance.
         Args:
@@ -18,10 +19,10 @@ class BaseModel():
             - **kwargs: dict of key-values arguments
         """
 
-        if kwargs is not None and  kwargs != {}:
+        if kwargs is not None and kwargs != {}:
             for k, v in kwargs.items():
                 if k in ['created_at', 'updated_at']:
-                    setattr(self, k,  datetime.strptime(str(v), 
+                    setattr(self, k,  datetime.strptime(str(v),
                             '%Y-%m-%dT%H:%M:%S.%f'))
                 elif k != '__class__':
                     setattr(self, k, v)
@@ -34,17 +35,17 @@ class BaseModel():
     def __str__(self):
         """Returns a human-readable string representation
         of an instance."""
-
-        return str("[{}] ({}) {}".format(type(self).__name__, 
-            self.id, self.__dict__));
+        return str(f"[{type(self).__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
-        """Updates the updated_at attribute
-        with the current datetime."""
+        """
+        Updates the updated_at attribute
+        with the current datetime.
+        """
 
         self.updated_at = datetime.now()
         storage.save()
-    
+
     def to_dict(self):
         """Returns a dictionary representation of an instance."""
 

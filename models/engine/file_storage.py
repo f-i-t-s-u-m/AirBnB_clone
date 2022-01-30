@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """ filestorage python file """
 
-import json, os
+import json
+
 
 class FileStorage:
     """ python class"""
@@ -18,14 +19,14 @@ class FileStorage:
 
     def new(self, obj):
         """ sets to __objs"""
-        self.__objects = {type(obj).__name__+"."+ obj.id : obj}
+        self.__objects = {type(obj).__name__ + "." + obj.id: obj}
 
     def save(self):
         """ serialize _object to json"""
         objFile = {}
         try:
             with open(self.__file_path) as readData:
-                    objFile = json.load(readData)
+                objFile = json.load(readData)
         except FileNotFoundError:
             pass
         with open(self.__file_path, "w") as data:
@@ -35,25 +36,23 @@ class FileStorage:
 
     def classes(self):
         """
-        load classes from 
+        load classes from
         """
         from models.base_model import BaseModel
         classData = {
-                "BaseModel":BaseModel
+                "BaseModel": BaseModel
                 }
         return classData
 
     def reload(self):
         """ load or deserilizes json file to _objs"""
-        from  models.base_model import BaseModel
+        from models.base_model import BaseModel
         try:
             with open(self.__file_path) as jsonfile:
                 obj = json.load(jsonfile)
-                obj = {k: self.classes()[v['__class__']](**v) for k, v in obj.items()}
+                for k, v in obj.items():
+                    obj = {k: self.classes()[v['__class__']](**v)}
                 self.__objects = obj
 
         except FileNotFoundError:
             pass
-
-
-
