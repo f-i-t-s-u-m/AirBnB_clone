@@ -6,7 +6,7 @@ Unittest for Place Class
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import unittest
-
+import pep8
 
 class TestBaseClass(unittest.TestCase):
     def setUp(self):
@@ -35,6 +35,11 @@ class TestBaseClass(unittest.TestCase):
         objs = self.store.all()
         self.assertEqual(objs, self.store.all())
 
+    def test_for_style(self):
+        """doctring"""
+        checkstyle = pep8.StyleGuide(quiet=True)
+        err_check = checktyle.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(err_check.total_errors, 0, "fix pep8")
 
 if __name__ == '__main__':
     unittest.main()
