@@ -23,24 +23,33 @@ class FileStorage:
     def save(self):
         """ serialize _object to json"""
         #print(self)
-        try:
-            with open(self.__file_path) as readData:
-                loadedJson = readData.read()
-                if loadedJson:
-                    objFile = json.loads(loadedJson)
-        except FileNotFoundError:
-            pass
+        #try:
+        #    with open(self.__file_path) as readData:
+        #            objFile = json.load(readData)
+        #except FileNotFoundError:
+        #    pass
         with open(self.__file_path, "w") as data:
             obj = {k: v.to_dict() for k, v in self.__objects.items()}
-            obj.update(objFile)
+            #obj.update(objFile)
             json.dump(obj, data)
+
+    def classes(self):
+        """
+        load classes from 
+        """
+        from models.base_model import BaseModel
+        classData = {
+                "BaseModel":BaseModel
+                }
+        return classData
 
     def reload(self):
         """ load or deserilizes json file to _objs"""
+        from  models.base_model import BaseModel
         try:
             with open(self.__file_path) as jsonfile:
                 obj = json.load(jsonfile)
-                obj = {k: v for k, v in obj.items()}
+                obj = {k: self.classes()[v['__class__']](**v) for k, v in obj.items()}
                 self.__objects = obj
 
         except FileNotFoundError:
