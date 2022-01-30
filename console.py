@@ -33,6 +33,7 @@ class HBNBCommand(cmd.Cmd):
         base = storage.classes()[args]()
         base.name = args
         base.save()
+        print(base.__dict__['id'])
         return
     
     def do_all(self, args):
@@ -41,14 +42,12 @@ class HBNBCommand(cmd.Cmd):
             if args not in storage.classes():
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all().items():
-                if (type(v).__name__) == args:
-                    data = {k: v.to_dict()}
+            data = [str(v) for k, v in storage.all().items()
+                if type(v).__name__ == args]
             print (data)
             return
-        for k, v in storage.all().items():
-            data = v
-            print(data)
+        data = [str(v) for k, v in storage.all().items()]
+        print(data)
         return
 
     def findModel(fun):
