@@ -22,15 +22,15 @@ class FileStorage:
 
     def save(self):
         """ serialize _object to json"""
-        #print(self)
-        #try:
-        #    with open(self.__file_path) as readData:
-        #            objFile = json.load(readData)
-        #except FileNotFoundError:
-        #    pass
+        objFile = {}
+        try:
+            with open(self.__file_path) as readData:
+                    objFile = json.load(readData)
+        except FileNotFoundError:
+            pass
         with open(self.__file_path, "w") as data:
             obj = {k: v.to_dict() for k, v in self.__objects.items()}
-            #obj.update(objFile)
+            obj.update(objFile)
             json.dump(obj, data)
 
     def classes(self):
