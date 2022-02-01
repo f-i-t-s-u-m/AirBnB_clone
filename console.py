@@ -77,13 +77,13 @@ class HBNBCommand(cmd.Cmd):
 
     @findModel
     def do_show(self, args):
-        """ print class instance """
+        """ print class instance \n"""
         print(storage.all()[".".join(args[:2])])
         return
 
     @findModel
     def do_destory(self, args):
-        """ Deletes an instance based on the class name and id """
+        """ deletes an instance based on the class name and id \n"""
         del storage.all()[".".join(args[:2])]
         return
     
