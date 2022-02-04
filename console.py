@@ -144,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
 
 
     def update_dict(self, classname, uid, s_dict):
-        """Helper method for update() with a dictionary."""
+        """update instance  with a dictionary."""
         s = s_dict.replace("'", '"')
         d = json.loads(s)
         if not classname:
