@@ -54,7 +54,7 @@ ul
 	margin:0;
 }
 
-.locations, .amenities
+.filters .locations, .filters .amenities
 {
 	width:25%;
 	height:100%;

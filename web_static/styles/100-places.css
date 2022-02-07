@@ -105,3 +105,64 @@ flex-basis:100%;
 {
  	text-align:start;
 }
+
+.places .amenities, .reviews
+{
+	margin-top:40px;
+}
+
+.places article .amenities h2, .places article .reviews h2
+{
+	text-align:left;
+	padding-bottom:5px;
+	font-size:16px;
+	border-bottom:1px solid #DDDDDD;
+}
+
+.places article .amenities ul, .places article .reviews ul
+{
+	list-style-position:outside;
+	padding-left:5px;
+}
+.places article .amenities ul li
+{
+	text-align:start;
+    padding: 1px 0;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 25px;
+    height: 100%;
+    width: 100%;
+    font-weight:bold; 
+}
+.places article .review ul li h3
+{
+	font-size:14px;
+}
+
+.places article .amenities ul li p
+{
+	padding-left:40px;
+	font-size:12px;
+	margin:5px auto
+}
+
+.places article .amenities ul li:first-child{
+    background-image: url("../images/icon_tv.png");
+   
+}
+.places article .amenities ul li:nth-child(2){
+    background-image: url("../images/icon_wifi.png");
+}
+
+.places article .amenities ul li:last-child{
+    background-image: url("../images/icon_pets.png");
+}
+.reviews
+{
+	text-align:start;
+}
+.places .reviews ul li h3
+{
+	font-size:14px;
+}
